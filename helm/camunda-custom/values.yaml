@@ -1,80 +1,118 @@
-# Override-uj Camunda default values
 camunda-platform:
   global:
     ingress:
-      enabled: false  # Za dev bez ingress-a
-    
+      enabled: false
+  
+  # Zeebe - workflow engine (1 replica)
   zeebe:
-    replicas: 1
+    clusterSize: 1
+    partitionCount: 1
+    replicationFactor: 1
     resources:
       requests:
-        cpu: "500m"
+        cpu: "200m"
         memory: "512Mi"
       limits:
-        cpu: "1000m"
+        cpu: "500m"
         memory: "1Gi"
   
+  # Zeebe Gateway (1 replica)
   zeebe-gateway:
     replicas: 1
     resources:
       requests:
-        cpu: "250m"
+        cpu: "100m"
         memory: "256Mi"
       limits:
-        cpu: "500m"
+        cpu: "250m"
         memory: "512Mi"
   
+  # Operate UI
   operate:
     enabled: true
-    replicas: 1
     resources:
       requests:
-        cpu: "250m"
+        cpu: "200m"
         memory: "512Mi"
       limits:
-        cpu: "500m"
+        cpu: "400m"
         memory: "1Gi"
   
+  # Tasklist UI
   tasklist:
     enabled: true
-    replicas: 1
     resources:
       requests:
-        cpu: "250m"
+        cpu: "200m"
         memory: "512Mi"
       limits:
-        cpu: "500m"
+        cpu: "400m"
         memory: "1Gi"
   
+  # Isključi sve nepotrebne komponente
   optimize:
-    enabled: false  # Isključi za dev ako ne treba
+    enabled: false
   
+  connectors:
+    enabled: false
+  
+  webModeler:
+    enabled: false
+  
+  console:
+    enabled: false
+  
+  # Identity/Keycloak za autentikaciju
   identity:
     enabled: true
+    keycloak:
+      postgresql:
+        enabled: false  # Koristi shared PostgreSQL
   
+  # Elasticsearch (1 node samo)
   elasticsearch:
-    replicas: 1
-    minimumMasterNodes: 1
-    resources:
-      requests:
-        cpu: "500m"
-        memory: "1Gi"
-      limits:
-        cpu: "1000m"
-        memory: "2Gi"
-
-  postgresql:
     enabled: true
-    primary:
+    imageTag: "8.9.2"
+    sysctlImage:
+      enabled: false  # Fix za bitnami os-shell problem
+    master:
+      replicaCount: 1
+      masterOnly: false
+    data:
+      replicaCount: 0  # Disable dodatne data nodes
+    coordinating:
+      replicaCount: 0  # Disable coordinating nodes
+    ingest:
+      replicaCount: 0  # Disable ingest nodes
+    volumeClaimTemplate:
       resources:
         requests:
-          cpu: "250m"
+          storage: 5Gi  # Manji disk za test
+    resources:
+      requests:
+        cpu: "200m"
+        memory: "1Gi"
+      limits:
+        cpu: "500m"
+        memory: "2Gi"
+  
+  # PostgreSQL (1 node samo)
+  postgresql:
+    enabled: true
+    image:
+      tag: "15.6.0-debian-12-r11"  # Fix za image pull problem
+    auth:
+      postgresPassword: "camunda"
+      username: "camunda"
+      password: "camunda"
+      database: "camunda"
+    primary:
+      persistence:
+        size: 5Gi  # Manji disk za test
+      resources:
+        requests:
+          cpu: "100m"
           memory: "256Mi"
         limits:
-          cpu: "500m"
+          cpu: "250m"
           memory: "512Mi"
-
-# Custom secrets placeholder
-customSecrets:
-  enabled: true
-  dbPassword: "changeme"  # Override preko ArgoCD ili sealed-secrets
