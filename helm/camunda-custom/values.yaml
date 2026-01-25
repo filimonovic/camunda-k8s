@@ -69,25 +69,28 @@ camunda-platform:
       postgresql:
         enabled: false  # Koristi shared PostgreSQL
   
-  # Elasticsearch (1 node samo)
+  # Elasticsearch - EKSPLICITNI IMAGE
   elasticsearch:
     enabled: true
-    imageTag: "8.9.2"
+    image:
+      registry: docker.io
+      repository: bitnami/elasticsearch
+      tag: 8.9.2-debian-11-r64  # Eksplicitna verzija koja postoji
     sysctlImage:
       enabled: false  # Fix za bitnami os-shell problem
     master:
       replicaCount: 1
       masterOnly: false
     data:
-      replicaCount: 0  # Disable dodatne data nodes
+      replicaCount: 0
     coordinating:
-      replicaCount: 0  # Disable coordinating nodes
+      replicaCount: 0
     ingest:
-      replicaCount: 0  # Disable ingest nodes
+      replicaCount: 0
     volumeClaimTemplate:
       resources:
         requests:
-          storage: 5Gi  # Manji disk za test
+          storage: 5Gi
     resources:
       requests:
         cpu: "200m"
@@ -96,11 +99,13 @@ camunda-platform:
         cpu: "500m"
         memory: "2Gi"
   
-  # PostgreSQL (1 node samo)
+  # PostgreSQL - EKSPLICITNI IMAGE
   postgresql:
     enabled: true
     image:
-      tag: "15.6.0-debian-12-r11"  # Fix za image pull problem
+      registry: docker.io
+      repository: bitnami/postgresql
+      tag: 15.6.0-debian-12-r11
     auth:
       postgresPassword: "camunda"
       username: "camunda"
@@ -108,7 +113,7 @@ camunda-platform:
       database: "camunda"
     primary:
       persistence:
-        size: 5Gi  # Manji disk za test
+        size: 5Gi
       resources:
         requests:
           cpu: "100m"
