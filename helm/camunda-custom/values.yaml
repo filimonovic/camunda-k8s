@@ -1,3 +1,6 @@
+postgresql-web-modeler:
+  enabled: false
+
 opensearch:
   enabled: true
   singleNode: true
@@ -76,6 +79,13 @@ camunda-platform:
       limits:
         cpu: "400m"
         memory: "1Gi"
+    env:
+      - name: CAMUNDA_OPERATE_ELASTICSEARCH_URL
+        value: "http://opensearch-cluster-master:9200"
+      - name: CAMUNDA_OPERATE_ELASTICSEARCH_CLUSTERNAME
+        value: "opensearch-cluster"
+      - name: CAMUNDA_OPERATE_ZEEBE_GATEWAYADDRESS
+        value: "camunda-platform-zeebe-gateway:26500"
   
   tasklist:
     enabled: true
@@ -86,6 +96,13 @@ camunda-platform:
       limits:
         cpu: "400m"
         memory: "1Gi"
+    env:
+      - name: CAMUNDA_TASKLIST_ELASTICSEARCH_URL
+        value: "http://opensearch-cluster-master:9200"
+      - name: CAMUNDA_TASKLIST_ELASTICSEARCH_CLUSTERNAME
+        value: "opensearch-cluster"
+      - name: CAMUNDA_TASKLIST_ZEEBE_GATEWAYADDRESS
+        value: "camunda-platform-zeebe-gateway:26500"
   
   optimize:
     enabled: false
@@ -95,26 +112,15 @@ camunda-platform:
   
   webModeler:
     enabled: false
-    restapi:
-      mail:
-        fromAddress: "noreply@example.com"
   
   console:
     enabled: false
   
   identity:
     enabled: false
-    firstUser:
-      username: "demo"
-      password: "demo"
   
   identityKeycloak:
     enabled: false
-    auth:
-      adminUser: admin
-      existingSecret: ""
-    postgresql:
-      enabled: false
   
   identityPostgresql:
     enabled: false
@@ -144,6 +150,3 @@ camunda-platform:
         limits:
           cpu: "250m"
           memory: "512Mi"
-  
-  "postgresql-web-modeler":
-    enabled: false
