@@ -95,6 +95,9 @@ camunda-platform:
   
   webModeler:
     enabled: false
+    restapi:
+      mail:
+        fromAddress: "noreply@example.com"
   
   console:
     enabled: false
@@ -142,5 +145,5 @@ camunda-platform:
           cpu: "250m"
           memory: "512Mi"
   
-  postgresql-web-modeler:
+  "postgresql-web-modeler":
     enabled: false
