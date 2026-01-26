@@ -41,7 +41,7 @@ camunda-platform:
           redirectUrl: "http://localhost"
     
     elasticsearch:
-      host: "camunda-platform-opensearch"
+      host: "opensearch-cluster-master"
       port: 9200
       clusterName: "opensearch-cluster"
   
@@ -141,3 +141,6 @@ camunda-platform:
         limits:
           cpu: "250m"
           memory: "512Mi"
+  
+  postgresql-web-modeler:
+    enabled: false
