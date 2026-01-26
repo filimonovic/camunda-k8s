@@ -34,16 +34,12 @@ opensearch:
   service:
     type: ClusterIP
 
-# ==============================================================================
-# Camunda Platform Configuration
-# ==============================================================================
 camunda-platform:
   global:
     ingress:
       enabled: false
     
-    # Camunda connection to OpenSearch
-    # ⚠️ BITNO: "elasticsearch" je legacy ime, ali pokazuje na OpenSearch
+
     elasticsearch:
       enabled: true
       host: "camunda-platform-opensearch"  # ← ISPRAVLJENO: <release-name>-opensearch
