@@ -3,7 +3,8 @@
 1. PRIPREMA ELASTICSEARCH KLASTERA
 1.1 Kreiranje korisnika i prava
 Na vašem eksternom Elasticsearch klasteru (3 noda), treba da kreirate:
-bash# Kreiranje korisnika za Camunda
+bash
+# Kreiranje korisnika za Camunda
 curl -X POST "https://your-es-cluster:9200/_security/user/camunda_user" \
   -H "Content-Type: application/json" \
   -u elastic:your_password \
@@ -28,7 +29,8 @@ curl -X POST "https://your-es-cluster:9200/_security/role/camunda_role" \
   }'
 1.2 SSL Certifikat (ako koristite HTTPS)
 Ako Elasticsearch koristi self-signed sertifikat:
-bash# Izvucite sertifikat iz Elasticsearch
+bash# 
+Izvucite sertifikat iz Elasticsearch
 openssl s_client -showcerts -connect your-es-host:9200 </dev/null 2>/dev/null | \
   openssl x509 -outform PEM > elastic.crt
 
