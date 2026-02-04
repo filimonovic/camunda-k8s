@@ -345,6 +345,8 @@ Ovo bi trebalo da vam pruži kompletan setup za produkciono okruženje. Prilagod
 
 
 ---------------------------------------------
+
+```bash
 # ============================================
 # GLOBAL
 # ============================================
@@ -606,3 +608,4 @@ webModeler:
 
 webModelerPostgresql:
   enabled: false
+```
